@@ -5,6 +5,7 @@ import "./App.css";
 
 function App() {
   const [currentWord, setCurrentWord] = useState("");
+  const [currentAttempt, setCurrentAttempt] = useState(0);
 
   return (
     <div className="App">
@@ -25,7 +26,7 @@ function App() {
                   attempt + 1
                 } vacía`}
               >
-                {currentWord[letterIndex]}
+                {currentAttempt === attempt ? currentWord[letterIndex] : ""}
               </div>
             ))}
           </div>
