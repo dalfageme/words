@@ -109,7 +109,11 @@ function App() {
           </div>
         ))}
       </div>
-      <Keyboard onKeyPress={onKeyPress} />
+      <Keyboard
+        onKeyPress={onKeyPress}
+        physicalKeyboardHighlight={true}
+        physicalKeyboardHighlightPress={true}
+      />
     </div>
   );
 }
