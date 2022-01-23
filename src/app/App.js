@@ -9,6 +9,8 @@ function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [currentAttempt, setCurrentAttempt] = useState(0);
   const [attempts, setAttempts] = useState([]);
+  const [alert, setAlert] = useState();
+
   const correctWord = "banco";
 
   const getLetter = (attempt, letterIndex) => {
@@ -83,6 +85,7 @@ function App() {
 
   const enterWord = (word) => {
     if (!words.has(word)) {
+      setAlert(`${word} no está en el diccionario`);
       return;
     }
 
@@ -94,6 +97,7 @@ function App() {
 
   return (
     <div className="App">
+      {alert && <div role="alert">{alert}</div>}
       <div className="grid">
         {[0, 1, 2, 3, 4, 5].map((attempt) => (
           <div

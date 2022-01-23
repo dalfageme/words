@@ -106,8 +106,10 @@ it("validates the entered word", async () => {
   enter();
 
   const row = screen.queryByRole("row", { name: "Palabra 1: sssss" });
+  const alert = screen.getByRole("alert");
 
   expect(row).not.toBeInTheDocument();
+  expect(alert).toHaveTextContent("sssss no está en el diccionario");
 });
 
 function enter() {
