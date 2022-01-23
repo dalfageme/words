@@ -95,6 +95,21 @@ it("marks letter in green if it's in the correct place of the correct word", asy
   expect(letter).toHaveClass("letter--correct");
 });
 
+it("validates the entered word", async () => {
+  wrap(App).atPath("/").mount();
+
+  typeKeyboardLetter("s");
+  typeKeyboardLetter("s");
+  typeKeyboardLetter("s");
+  typeKeyboardLetter("s");
+  typeKeyboardLetter("s");
+  enter();
+
+  const row = screen.queryByRole("row", { name: "Palabra 1: sssss" });
+
+  expect(row).not.toBeInTheDocument();
+});
+
 function enter() {
   typeKeyboardLetter("< enter");
 }

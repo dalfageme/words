@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { useState } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import words from "../data/words";
 import "./App.css";
 
 function App() {
@@ -74,13 +75,21 @@ function App() {
 
   const onKeyPress = (key) => {
     if (key === "{enter}") {
-      setCurrentAttempt(currentAttempt + 1);
-      setAttempts([...attempts, currentWord]);
-      setCurrentWord("");
-      return;
+      enterWord(currentWord);
     }
 
     setCurrentWord((word) => word + key);
+  };
+
+  const enterWord = (word) => {
+    if (!words.has(word)) {
+      return;
+    }
+
+    setCurrentAttempt(currentAttempt + 1);
+    setAttempts([...attempts, currentWord]);
+    setCurrentWord("");
+    return;
   };
 
   return (
