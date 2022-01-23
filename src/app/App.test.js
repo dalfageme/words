@@ -31,6 +31,22 @@ it("display boxes for each letter", () => {
   expect(letter).toBeInTheDocument(6);
 });
 
+it("keyboard types on grid", async () => {
+  wrap(App).atPath("/").mount();
+
+  const row = screen.getByRole("row", { name: "Palabra 1 vacía" });
+  const letter = within(row).getByRole("cell", {
+    name: "Letra 1 de palabra 1 vacía",
+  });
+  typeKeyboardLetter("a");
+
+  expect(letter).toHaveTextContent("a");
+});
+
+function typeKeyboardLetter(letter) {
+  userEvent.click(getKeyboardKey(letter));
+}
+
 function getKeyboardKey(letter) {
   return within(document.querySelector(".react-simple-keyboard")).getByText(
     letter
