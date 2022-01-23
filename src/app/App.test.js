@@ -2,9 +2,13 @@ import { screen } from "@testing-library/react";
 import { wrap } from "wrapito";
 import App from "./App";
 
-test("renders learn react link", async () => {
+it("has a virtual keyboard", async () => {
   wrap(App).atPath("/").mount();
-  const linkElement = await screen.findByText(/learn react/i);
 
-  expect(linkElement).toBeInTheDocument();
+  expect(await screen.findByText("q")).toBeInTheDocument();
+  expect(screen.getByText("w")).toBeInTheDocument();
+  expect(screen.getByText("e")).toBeInTheDocument();
+  expect(screen.getByText("r")).toBeInTheDocument();
+  expect(screen.getByText("t")).toBeInTheDocument();
+  expect(screen.getByText("y")).toBeInTheDocument();
 });
