@@ -27,9 +27,14 @@ function App() {
       }`;
     }
 
+    if (letterIsCorrect(letter, letterIndex)) {
+      return `La letra ${letter} es correcta en la posición ${letterIndex + 1}`;
+    }
+
     if (wordHasLetter(letter)) {
       return `La letra ${letter} si está en la palabra`;
     }
+
     return `La letra ${letter} no está en la palabra`;
   };
 
@@ -38,6 +43,10 @@ function App() {
 
     if (attempt >= currentAttempt) {
       return;
+    }
+
+    if (letterIsCorrect(letter, letterIndex)) {
+      return "letter--correct";
     }
 
     if (wordHasLetter(letter)) {
@@ -57,6 +66,10 @@ function App() {
 
   const wordHasLetter = (letter) => {
     return correctWord.includes(letter);
+  };
+
+  const letterIsCorrect = (letter, position) => {
+    return correctWord[position] === letter;
   };
 
   const onKeyPress = (key) => {

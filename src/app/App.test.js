@@ -21,7 +21,7 @@ it("has a words grid", async () => {
   ).toBeInTheDocument();
 });
 
-it("display boxes for each letter", () => {
+it("displays boxes for each letter", () => {
   wrap(App).atPath("/").mount();
 
   const row = screen.getByRole("row", { name: "Palabra 1 vacía" });
@@ -44,7 +44,7 @@ it("keyboard types on grid", async () => {
   expect(letter).toHaveAccessibleName("Letra 1 de palabra 1: a");
 });
 
-it("mark letter in gray if is not present in the correct word", async () => {
+it("marks letter in gray if is not present in the correct word", async () => {
   wrap(App).atPath("/").mount();
 
   typeKeyboardLetter("a");
@@ -61,7 +61,7 @@ it("mark letter in gray if is not present in the correct word", async () => {
   expect(letter).toHaveClass("letter--not-present");
 });
 
-it("mark letter in orange if is present in the correct word", async () => {
+it("marks letter in orange if is present in the correct word", async () => {
   wrap(App).atPath("/").mount();
 
   typeKeyboardLetter("a");
@@ -76,6 +76,23 @@ it("mark letter in orange if is present in the correct word", async () => {
   });
 
   expect(letter).toHaveClass("letter--present");
+});
+
+it("marks letter in green if it's in the correct place of the correct word", async () => {
+  wrap(App).atPath("/").mount();
+
+  typeKeyboardLetter("a");
+  typeKeyboardLetter("m");
+  typeKeyboardLetter("e");
+  typeKeyboardLetter("n");
+  typeKeyboardLetter("o");
+  enter();
+  const row = screen.getByRole("row", { name: "Palabra 1: ameno" });
+  const letter = within(row).getByRole("cell", {
+    name: "La letra o es correcta en la posición 5",
+  });
+
+  expect(letter).toHaveClass("letter--correct");
 });
 
 function enter() {

@@ -35,3 +35,7 @@
 .letter--present {
   background-color: orange;
 }
+
+.letter--correct {
+  background-color: green;
+}
