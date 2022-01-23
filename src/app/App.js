@@ -8,7 +8,7 @@ function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [currentAttempt, setCurrentAttempt] = useState(0);
   const [attempts, setAttempts] = useState([]);
-  const correctWord = "sssss";
+  const correctWord = "banco";
 
   const getLetter = (attempt, letterIndex) => {
     if (currentAttempt === attempt) {
@@ -27,9 +27,10 @@ function App() {
       }`;
     }
 
-    if (!wordHasLetter(letter)) {
-      return `La letra ${letter} no está en la palabra`;
+    if (wordHasLetter(letter)) {
+      return `La letra ${letter} si está en la palabra`;
     }
+    return `La letra ${letter} no está en la palabra`;
   };
 
   const getLetterClass = (attempt, letterIndex) => {
@@ -39,9 +40,11 @@ function App() {
       return;
     }
 
-    if (!wordHasLetter(letter)) {
-      return "letter--not-present";
+    if (wordHasLetter(letter)) {
+      return "letter--present";
     }
+
+    return "letter--not-present";
   };
 
   const getWordAlt = (attempt) => {
@@ -59,7 +62,7 @@ function App() {
   const onKeyPress = (key) => {
     if (key === "{enter}") {
       setCurrentAttempt(currentAttempt + 1);
-      attempts.push(currentWord);
+      setAttempts([...attempts, currentWord]);
       setCurrentWord("");
       return;
     }
@@ -77,7 +80,7 @@ function App() {
             role="row"
             aria-label={getWordAlt(attempt)}
           >
-            {[0, 1, 2, 3, 4, 5].map((letterIndex) => (
+            {[0, 1, 2, 3, 4].map((letterIndex) => (
               <div
                 className={classNames(
                   "letter",

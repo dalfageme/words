@@ -27,3 +27,11 @@
   justify-content: center;
   text-transform: uppercase;
 }
+
+.letter--not-present {
+  background-color: #aaa;
+}
+
+.letter--present {
+  background-color: orange;
+}

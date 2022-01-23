@@ -55,10 +55,27 @@ it("mark letter in gray if is not present in the correct word", async () => {
   enter();
   const row = screen.getByRole("row", { name: "Palabra 1: ameno" });
   const letter = within(row).getByRole("cell", {
-    name: "La letra a no está en la palabra",
+    name: "La letra m no está en la palabra",
   });
 
   expect(letter).toHaveClass("letter--not-present");
+});
+
+it("mark letter in orange if is present in the correct word", async () => {
+  wrap(App).atPath("/").mount();
+
+  typeKeyboardLetter("a");
+  typeKeyboardLetter("m");
+  typeKeyboardLetter("e");
+  typeKeyboardLetter("n");
+  typeKeyboardLetter("o");
+  enter();
+  const row = screen.getByRole("row", { name: "Palabra 1: ameno" });
+  const letter = within(row).getByRole("cell", {
+    name: "La letra a si está en la palabra",
+  });
+
+  expect(letter).toHaveClass("letter--present");
 });
 
 function enter() {
