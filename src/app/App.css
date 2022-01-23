@@ -19,9 +19,9 @@
 }
 
 .letter {
-  width: 40px;
-  height: 40px;
-  background-color: #ccc;
+  width: 60px;
+  height: 60px;
+  border: 2px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,12 +30,15 @@
 
 .letter--not-present {
   background-color: #aaa;
+  border-color: #aaa;
 }
 
 .letter--present {
   background-color: orange;
+  border-color: orange;
 }
 
 .letter--correct {
   background-color: green;
+  border-color: green;
 }

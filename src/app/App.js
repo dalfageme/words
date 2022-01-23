@@ -5,13 +5,24 @@ import "react-simple-keyboard/build/css/index.css";
 import words from "../data/words";
 import "./App.css";
 
+const getTodayWord = () => {
+  const today = new Date();
+  const yearCount = today.getFullYear() - 2022;
+  const dayOfYear = Math.floor(
+    (today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24)
+  );
+  const wordIndex = yearCount * 1000 + dayOfYear;
+
+  return [...words][wordIndex].toLowerCase();
+};
+
 function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [currentAttempt, setCurrentAttempt] = useState(0);
   const [attempts, setAttempts] = useState([]);
   const [alert, setAlert] = useState();
 
-  const correctWord = "banco";
+  const correctWord = getTodayWord();
 
   const getLetter = (attempt, letterIndex) => {
     if (currentAttempt === attempt) {
@@ -78,12 +89,28 @@ function App() {
   const onKeyPress = (key) => {
     if (key === "{enter}") {
       enterWord(currentWord);
+      return;
     }
 
-    setCurrentWord((word) => word + key);
+    if (key === "{bksp}") {
+      deleteLastLetter();
+      return;
+    }
+
+    if (currentWord.length < 5) {
+      setCurrentWord((word) => word + key);
+    }
+  };
+
+  const deleteLastLetter = () => {
+    setCurrentWord((word) => word.slice(0, -1));
   };
 
   const enterWord = (word) => {
+    if (correctWord === word) {
+      setAlert(`Palabra acertada: ${word}`);
+    }
+
     if (!words.has(word)) {
       setAlert(`${word} no está en el diccionario`);
       return;
@@ -126,6 +153,17 @@ function App() {
         onKeyPress={onKeyPress}
         physicalKeyboardHighlight={true}
         physicalKeyboardHighlightPress={true}
+        layout={{
+          default: [
+            "q w e r t y u i o p",
+            "a s d f g h j k l ñ",
+            "{enter} z x c v b n m {bksp}",
+          ],
+        }}
+        display={{
+          "{bksp}": "<",
+          "{enter}": "ENTER",
+        }}
       />
     </div>
   );

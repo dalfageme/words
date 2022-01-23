@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { wrap } from "wrapito";
 import App from "./App";
 
+jest.useFakeTimers().setSystemTime(new Date("2022-01-23").getTime());
+
 it("has a virtual keyboard", async () => {
   wrap(App).atPath("/").mount();
 
@@ -45,6 +47,8 @@ it("keyboard types on grid", async () => {
 });
 
 it("marks letter in gray if is not present in the correct word", async () => {
+  Date.now = jest.fn(() => 1642964314258);
+
   wrap(App).atPath("/").mount();
 
   typeKeyboardLetter("a");
@@ -112,8 +116,35 @@ it("validates the entered word", async () => {
   expect(alert).toHaveTextContent("sssss no está en el diccionario");
 });
 
+it("has a backspace key which remove last letter", async () => {
+  wrap(App).atPath("/").mount();
+
+  typeKeyboardLetter("s");
+  const row = screen.getByRole("row", { name: "Palabra 1 vacía" });
+  const letter = within(row).getByRole("cell", {
+    name: "Letra 1 de palabra 1: s",
+  });
+
+  typeKeyboardLetter("<");
+  expect(letter).toHaveTextContent("");
+});
+
+it("get the todays word", async () => {
+  wrap(App).atPath("/").mount();
+
+  typeKeyboardLetter("p");
+  typeKeyboardLetter("a");
+  typeKeyboardLetter("b");
+  typeKeyboardLetter("l");
+  typeKeyboardLetter("o");
+  enter();
+
+  const alert = screen.getByRole("alert");
+  expect(alert).toHaveTextContent("Palabra acertada: pablo");
+});
+
 function enter() {
-  typeKeyboardLetter("< enter");
+  typeKeyboardLetter("ENTER");
 }
 
 function typeKeyboardLetter(letter) {
